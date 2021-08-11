@@ -5,7 +5,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: notejam
-  namespace: default
+  namespace: argocd
 spec:
   destination:
     namespace: default
