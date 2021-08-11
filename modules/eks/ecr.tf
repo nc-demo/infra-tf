@@ -3,7 +3,30 @@ resource "aws_ecr_repository" "repo" {
   image_tag_mutability = "IMMUTABLE"
 }
 
-resource "aws_ecr_repository_policy" "nc-demo-policy" {
+resource "aws_ecr_lifecycle_policy" "lifecycle_policy" {
+  repository = aws_ecr_repository.repo.name
+
+  policy = <<EOF
+{
+    "rules": [
+        {
+            "rulePriority": 1,
+            "description": "Keep last 2 images",
+            "selection": {
+                "tagStatus": "any",
+                "countType": "imageCountMoreThan",
+                "countNumber": 2
+            },
+            "action": {
+                "type": "expire"
+            }
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_ecr_repository_policy" "repo-policy" {
   repository = aws_ecr_repository.repo.name
   policy     = <<EOF
   {
