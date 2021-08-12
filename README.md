@@ -61,10 +61,10 @@ Once we have terraform IAM account created we can proceed to next step creating 
 
 ### Create terraform state bucket
 
-> NOTE: Change name of the bucker, name should be unique across all AWS S3 buckets
+> NOTE: Change name of the bucket, name should be unique across all AWS S3 buckets
 
 ```sh
-aws s3 mb s3://nc-demo-terraform-state-bucket --region eu-east-1
+aws s3 mb s3://nc-demo-terraform-state-bucket --region eu-west-1
 ```
 
 ### Enable versioning on the newly created bucket
@@ -110,12 +110,6 @@ Terraform modules will create
     terraform apply
     ```
 
-1. Verify instance creation
-
-    ```sh
-    aws ec2 describe-instances --output table
-    ```
-
 1. Export kubectl config file
 
     ```sh
@@ -123,15 +117,20 @@ Terraform modules will create
     ```
 
 1. Verify kubectl connectivity and nodes creation
-
+   
+   To prevent error:
+   ```shell
+   error: You must be logged in to the server (Unauthorized)   
+   ```
+   Set your aws credentials to terraform user ones and then run:
     ```sh
     kubectl get nodes
     
     kubectl get pod
     ```
 
-### Connect to the Argo CD UI
-To print argocd admin account password:
+### Connect to ArgoCD UI
+To find out the generated ArgoCD admin account password:
 ```sh
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep eks-admin | awk '{print $1}')
 ```
@@ -149,7 +148,7 @@ Please note, at this point, there is no docker image present in the ECR registry
 Afterwards the notejam application should be accesible on the hostname discoverable via:
 
 ```shell
-kubecl get svc/notejam
+kubectl get svc/notejam
 ```
 where the `EXTERNAL-IP` column contains the hostname to be opened in the web browser (port is 80).
 
