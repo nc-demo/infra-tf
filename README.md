@@ -87,6 +87,8 @@ Terraform modules will create
 * Autoscaling Group will create nodes to be added to the cluster
 * Security group for RDS
 * RDS with MySQL
+* ArgoCD deployment and Notejam application setup in EKS cluster
+* CloudWatch Logs shipping from EKS (not enabled by default)
 
 1. Initialize and pull terraform cloud specific dependencies
 
